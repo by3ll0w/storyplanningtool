@@ -135,7 +135,7 @@ public class DetailActivity extends AppCompatActivity {
         intent.putStringArrayListExtra("ElementName",elementNames);
         intent.putStringArrayListExtra("ElementDetail",elementDetails);
         startActivity(intent);
-        finish();
+       finish();
     }
 
     private void updateFile(){
