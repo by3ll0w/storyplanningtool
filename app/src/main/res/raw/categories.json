@@ -1,0 +1,32 @@
+{
+  "categories": [
+
+    {
+      "id": "0001",
+      "name": "Race",
+      "default": "true"
+    },
+    {
+      "id": "0002",
+      "name": "Place",
+      "default": "true"
+    },
+    {
+      "id": "0003",
+      "name": "Creature",
+      "default": "true"
+    },
+    {
+      "id": "0004",
+      "name": "Item",
+      "default": "true"
+    },
+    {
+      "id": "0004",
+      "name": "Race",
+      "isDefault": "true"
+    }
+
+
+  ]
+}

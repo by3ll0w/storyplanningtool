@@ -1,0 +1,22 @@
+{
+  "categories": [
+
+    {
+      "name": "Race",
+      "default": "true"
+    },
+    {
+      "name": "Place",
+      "default": "true"
+    },
+    {
+      "name": "Creature",
+      "default": "true"
+    },
+    {
+      "name": "Item",
+      "default": "true"
+    }
+
+  ]
+}
