@@ -1,4 +1,4 @@
-package com.example.storyplanningprototype;
+package com.example.storyplanningtool;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,28 +7,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
-public class InputDialog extends AppCompatDialogFragment {
+public class InputDialog3 extends DialogFragment {
 
     private EditText editText;
-    private DiaologListener listener;
+    private DialogListener listener;
     public String s;
     public String msg;
     boolean rename = false;
 
 
-    public InputDialog(String Element){
+
+    public InputDialog3(String Element){
         this.rename=false;
         this.msg="Add new "+Element;
 
     }
-    public InputDialog(String Element,String name){
+    public InputDialog3(String Element, String name){
         this.rename=true;
         this.msg="Rename "+Element;
         this.s=name;
@@ -42,6 +42,8 @@ public class InputDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view=inflater.inflate(R.layout.layout_dialog,null);
+
+
         builder.setView(view)
                 .setTitle(msg)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -53,9 +55,11 @@ public class InputDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+
                         String name=editText.getText().toString();
 
-                            listener.applyTexts(name);
+                            listener.catRenameApplyTexts(name);
 
 
                     }
@@ -70,20 +74,28 @@ public class InputDialog extends AppCompatDialogFragment {
 
     }
 
-    public interface DiaologListener{
-        void applyTexts(String name);
+    public void show(WorldbuildingFragment worldbuildingFragment, String s) {
 
     }
+
+
+    public interface DialogListener{
+        void catRenameApplyTexts(String name);
+
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         try {
-            listener =(DiaologListener) context;
+            listener =(DialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+
+            throw new ClassCastException(context +
                     "Must Implement listener");
         }
     }
+
+
 }

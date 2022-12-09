@@ -1,4 +1,4 @@
-package com.example.storyplanningprototype;
+package com.example.storyplanningtool;
 
 import android.content.Context;
 

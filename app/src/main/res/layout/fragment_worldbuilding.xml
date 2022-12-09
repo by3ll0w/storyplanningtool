@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WorldbuildingFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,17 +15,52 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:layout_marginBottom="4sp"
-
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/fragTitleW"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp" />
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="20dp"
+    />
+
+    <TextView
+        android:id="@+id/fragSubTitleW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Custom Categories"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:layout_marginBottom="4sp"
+        android:layout_below="@id/recyclerView"
+       />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_below="@id/fragSubTitleW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_cat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="11dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </RelativeLayout>

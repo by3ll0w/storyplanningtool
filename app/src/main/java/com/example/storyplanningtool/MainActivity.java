@@ -1,4 +1,4 @@
-package com.example.storyplanningprototype;
+package com.example.storyplanningtool;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
@@ -40,12 +40,20 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener, InputDialog.DiaologListener {
-    private int STORAGE_PERMISSION_CODE = 1;
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener, InputDialog.DialogListener {
 
-    String mainFolder ="WorldbuildingPrototype";
+    SimpleDateFormat idformat =new SimpleDateFormat("yyyyMMddHHmmssSSS");
+    private final int STORAGE_PERMISSION_CODE = 1;
+
+
+
+    //Strings
+    String mainFolder ="WorldbuildingTool";
 
     //Widget
     RecyclerView recyclerView;
@@ -56,10 +64,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     //ArrayList
     ArrayList<String> projectNames=new ArrayList<>();
-
+    ArrayList<String> projectIDs=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestPermission();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         recyclerView=findViewById(R.id.recyclerView);
@@ -72,10 +82,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        requestPermission();
         checkMainDirectory();
         updateView();
-
         if(projectNames.isEmpty()){
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
@@ -99,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onItemClick(int position) {
-      openDashboard(projectNames.get(position));
+      openDashboard(projectNames.get(position),projectIDs.get(position));
     }
 
 
@@ -113,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
             for(int i=0;i<availableItems; i++){
                 JSONObject projectDetail = projectArray.getJSONObject(i);
+                projectIDs.add(projectDetail.getString("id"));
                 projectNames.add(projectDetail.getString("name"));
             }
 
@@ -121,15 +130,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
         }
 
-        CustomAdapterForProjects cA = new CustomAdapterForProjects(MainActivity.this,projectNames,this);
+        CustomAdapterForItems cA = new CustomAdapterForItems(MainActivity.this,projectNames,this);
         recyclerView.setAdapter(cA);
 
     }
 
-    public void openDashboard(String name){
+    public void openDashboard(String name, String id){
         Intent intent=new Intent(getApplicationContext(),DashboardActivity.class);
+        intent.putExtra("ID",id);
         intent.putExtra("Name",name);
         intent.putExtra("Folder",mainFolder);
+
+        intent.putStringArrayListExtra("IDList",projectIDs);
         intent.putStringArrayListExtra("ProjectList",projectNames);
         startActivity(intent);
     }
@@ -138,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     protected void onResume() {
         super.onResume();
         projectNames.clear();
+        projectIDs.clear();
         updateView();
         if(projectNames.isEmpty()){
             recyclerView.setVisibility(View.GONE);
@@ -158,14 +171,23 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void applyTexts(String name) {
+
+
         if (name.isEmpty()){
             Toast.makeText(getApplicationContext(),"Unable to make Project. No name is entered.",Toast.LENGTH_SHORT).show();
         }else{
-            if(Character.isLetter(name.charAt(0))){
+            //If valid
+
+          /* if(Character.isLetter(name.charAt(0))){
                 if (checkIfNameExist(name)){
                     Toast.makeText(getApplicationContext(),"Unable to make Project. Name already exists.",Toast.LENGTH_SHORT).show();
-                }else{
+                }else{*/
+
                     //Code if valid
+                    String id="proj"+ idformat.format(Calendar.getInstance().getTime());
+
+                    projectIDs.add(id);
+               // Toast.makeText(getApplicationContext(),id,Toast.LENGTH_SHORT).show();
                     projectNames.add(name);
 
                     updateProjectList();
@@ -177,36 +199,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                         emptyView.setVisibility(View.GONE);
                     }
 
-                    openDashboard(name);
+                    openDashboard(name,id);
 
-                }
-            }else{
+             /*   }
+           }else{
                 Toast.makeText(getApplicationContext(),"Unable to make Project. Name needs to start with a letter.",Toast.LENGTH_SHORT).show();
-            }
+            }*/
 
-
+           //
 
         }
 
     }
-
-    private boolean checkIfNameExist(String n){
-        int s=projectNames.size();
-        boolean x=false;
-        if(s==0){
-            return false;
-        }else{
-            for(int i=0;i<s;i++){
-                if( n.equals( projectNames.get(i) ) ){
-                    x=true;
-                    break;
-                }
-            }
-
-            return x;
-        }
-    }
-
 
     //File Management
     private void updateProjectList(){
@@ -215,8 +219,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         try{
             FileWriter fw=new FileWriter(directory);
             fw.write("{\n\t\"projects\": [");
-            for (int i=0;i<projectNames.size();i++){
+            for (int i=0;i<projectIDs.size();i++){
                 fw.append("\n\t\t{" +
+                        "\n\t\t\"id\":\""+projectIDs.get(i)+"\"" +","+
                         "\n\t\t\"name\":\""+projectNames.get(i)+"\"" +
                         "\n\t\t}");
                 if(i<(projectNames.size()-1)){
@@ -233,20 +238,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private String loadProjectJSONFile(){
-        String j = null;
+        String j;
         try {
             InputStream iStream = new FileInputStream(Environment.getExternalStorageDirectory()+"/"+ mainFolder +"/projects.json");
-
             int size= iStream.available();
             byte[] buffer =new byte[size];
             iStream.read(buffer);
             iStream.close();
-
-            j=new String(buffer, "UTF-8");
+            j=new String(buffer, StandardCharsets.UTF_8);
         }catch(IOException e){
-            return null;
+            return "";
         }
-
         return j;
     }
 
@@ -280,14 +282,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void importAssets(String directory){
-        try{
+    /*    try{
 
             InputStream iStream_asset=getAssets().open("categories.json");
             int size= iStream_asset.available();
             byte[] buffer =new byte[size];
             iStream_asset.read(buffer);
             iStream_asset.close();
-            String j=new String(buffer, "UTF-8");
+            String j=new String(buffer, StandardCharsets.UTF_8);
 
             FileWriter fw=new FileWriter(directory+"/categories.json");
             fw.write(j);
@@ -296,18 +298,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
         }catch (IOException e){
             e.printStackTrace();
-        }
+        }*/
 
         try{
 
-            InputStream iStream_asset=getAssets().open("categories2.json");
+            InputStream iStream_asset=getAssets().open("plannerCategories.json");
             int size= iStream_asset.available();
             byte[] buffer =new byte[size];
             iStream_asset.read(buffer);
             iStream_asset.close();
-            String j=new String(buffer, "UTF-8");
+            String j=new String(buffer, StandardCharsets.UTF_8);
 
-            FileWriter fw=new FileWriter(directory+"/categories2.json");
+            FileWriter fw=new FileWriter(directory+ "/plannerCategories.json");
             fw.write(j);
             fw.flush();
             fw.close();
@@ -347,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         }
     }
 
-    private ActivityResultLauncher<Intent> storageActivityResultLauncher =registerForActivityResult(
+    private final ActivityResultLauncher<Intent> storageActivityResultLauncher =registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
         new ActivityResultCallback<ActivityResult>() {
             @Override

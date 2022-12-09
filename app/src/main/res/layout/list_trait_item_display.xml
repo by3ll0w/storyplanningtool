@@ -4,21 +4,33 @@
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
     android:layout_margin="6dp"
+    android:elevation="0dp"
+    android:outlineAmbientShadowColor="#00000000"
+    android:outlineSpotShadowColor="#00000000"
     >
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/trait_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="name"
+            android:text="trait"
             android:textColor="#000"
             android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/trait_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="desc"
+            android:textColor="#000"
+            android:textSize="15sp"
             />
 
 

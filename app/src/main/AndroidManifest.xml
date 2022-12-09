@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.storyplanningprototype" >
+    package="com.example.storyplanningtool" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -19,19 +19,39 @@
         android:theme="@style/Theme.StoryPlanningPrototype"
         tools:targetApi="31" >
         <activity
-            android:name=".DetailActivity"
+            android:name="com.example.storyplanningtool.NoteDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".EditorActivity"
+            android:name="com.example.storyplanningtool.NoteEditorActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name="com.example.storyplanningtool.ScriptDetailActivity"
+            android:exported="false"/>
+        <activity
+            android:name="com.example.storyplanningtool.EventDetailActivity"
+            android:exported="false"/>
+        <activity
+            android:name="com.example.storyplanningtool.EventEditorActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name="com.example.storyplanningtool.ScriptEditorActivity"
+            android:exported="false"/>
+        <activity
+            android:name="com.example.storyplanningtool.ElementDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ElementListActivity"
+            android:name="com.example.storyplanningtool.ElementEditorActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name="com.example.storyplanningtool.ElementListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.storyplanningtool.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.storyplanningtool.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

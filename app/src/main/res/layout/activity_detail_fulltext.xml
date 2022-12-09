@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF59D"
-    tools:context=".ElementDetailActivity">
+    android:background="#DDC38B"
+    >
 
     <include
         android:id="@+id/menu_toolbar"
@@ -14,27 +14,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/menu_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginBottom="2dp"
-        android:dividerPadding="5dp"
-        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <TextView
+            android:layout_below="@id/menu_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/detaillist"
+            android:id="@+id/txt_content"
+            android:textSize="20dp"
+            android:text="text goes here"
             />
 
 
 
 
-    </LinearLayout>
+
 
 
 

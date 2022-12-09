@@ -2,18 +2,22 @@
   "categories": [
 
     {
+      "id": "cat1",
       "name": "Race",
       "default": "true"
     },
     {
+      "id": "cat2",
       "name": "Place",
       "default": "true"
     },
     {
+      "id": "cat3",
       "name": "Creature",
       "default": "true"
     },
     {
+      "id": "cat4",
       "name": "Item",
       "default": "true"
     }

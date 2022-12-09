@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF59D"
-    tools:context=".ElementDetailActivity">
+    android:background="#FFCC80"
+    android:outlineProvider="bounds"
+ >
 
     <include
         android:id="@+id/menu_toolbar"
@@ -25,17 +26,37 @@
         android:dividerPadding="5dp"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.cardview.widget.CardView
+           android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+            <EditText
+                android:id="@+id/note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Name" />
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/detaillist"
-            />
+            android:layout_marginBottom="5dp">
+
+            <EditText
+                android:id="@+id/note_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
 
 
-
-
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
-
 
 
 </RelativeLayout>

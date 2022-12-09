@@ -1,8 +1,7 @@
-package com.example.storyplanningprototype;
+package com.example.storyplanningtool;
 
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapterForProjects extends RecyclerView.Adapter<CustomAdapterForProjects.MyViewHolder>{
+public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapterForElements.MyViewHolder>{
     private final RecyclerViewClickListener cc;
 
 
 
-    ArrayList<String> projectNames;
+    ArrayList<String> elementNames;
     Context ctx;
 
 
     //constructor
-    public CustomAdapterForProjects(Context ctx, ArrayList<String> projectNames, RecyclerViewClickListener cc) {
-        this.projectNames = projectNames;
+    public CustomAdapterForElements(Context ctx, ArrayList<String> elementNames,RecyclerViewClickListener cc) {
+        this.elementNames = elementNames;
         this.ctx = ctx;
         this.cc=cc;
     }
@@ -33,7 +32,7 @@ public class CustomAdapterForProjects extends RecyclerView.Adapter<CustomAdapter
     //functions
     @NonNull
     @Override
-    public CustomAdapterForProjects.MyViewHolder
+    public CustomAdapterForElements.MyViewHolder
     onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent , false);
         return new MyViewHolder(v,cc);
@@ -42,13 +41,13 @@ public class CustomAdapterForProjects extends RecyclerView.Adapter<CustomAdapter
     @Override
     public void
     onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name.setText(projectNames.get(position));
+        holder.name.setText(elementNames.get(position));
     }
 
     @Override
     public int
     getItemCount() {
-        return projectNames.size();
+        return elementNames.size();
     }
 
 
@@ -59,9 +58,7 @@ public class CustomAdapterForProjects extends RecyclerView.Adapter<CustomAdapter
 
         public MyViewHolder(@NonNull View itemView,RecyclerViewClickListener ccc) {
             super(itemView);
-
             name=itemView.findViewById(R.id.name);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

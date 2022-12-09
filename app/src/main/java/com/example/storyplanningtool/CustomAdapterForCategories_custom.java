@@ -1,4 +1,4 @@
-package com.example.storyplanningprototype;
+package com.example.storyplanningtool;
 
 
 import android.content.Context;
@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapterForElements.MyViewHolder>{
-    private final RecyclerViewClickListener cc;
+public class CustomAdapterForCategories_custom extends RecyclerView.Adapter<CustomAdapterForCategories_custom.MyViewHolder>{
+    private final RecyclerViewClickListener2 cc;
 
 
 
-    ArrayList<String> elementNames;
+    ArrayList<String> categoryNames;
     Context ctx;
 
 
     //constructor
-    public CustomAdapterForElements(Context ctx, ArrayList<String> elementNames,RecyclerViewClickListener cc) {
-        this.elementNames = elementNames;
+    public CustomAdapterForCategories_custom(Context ctx, ArrayList<String> catNames, RecyclerViewClickListener2 cc) {
+        this.categoryNames = catNames;
         this.ctx = ctx;
         this.cc=cc;
     }
@@ -32,7 +32,7 @@ public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapter
     //functions
     @NonNull
     @Override
-    public CustomAdapterForElements.MyViewHolder
+    public CustomAdapterForCategories_custom.MyViewHolder
     onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent , false);
         return new MyViewHolder(v,cc);
@@ -41,13 +41,13 @@ public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapter
     @Override
     public void
     onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name.setText(elementNames.get(position));
+        holder.name.setText(categoryNames.get(position));
     }
 
     @Override
     public int
     getItemCount() {
-        return elementNames.size();
+        return categoryNames.size();
     }
 
 
@@ -56,7 +56,7 @@ public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapter
 
         TextView name;
 
-        public MyViewHolder(@NonNull View itemView,RecyclerViewClickListener ccc) {
+        public MyViewHolder(@NonNull View itemView,RecyclerViewClickListener2 ccc) {
             super(itemView);
             name=itemView.findViewById(R.id.name);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class CustomAdapterForElements extends RecyclerView.Adapter<CustomAdapter
                     if(ccc!=null){
                         int pos = getBindingAdapterPosition();
                         if (pos!=RecyclerView.NO_POSITION){
-                            ccc.onItemClick(pos);
+                            ccc.onCustomItemClick(pos);
                         }
                     }
                 }
