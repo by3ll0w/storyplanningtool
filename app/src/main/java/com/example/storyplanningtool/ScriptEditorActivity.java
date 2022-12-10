@@ -109,6 +109,8 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
         String id="sg"+df.format(Calendar.getInstance().getTime());
 
         segmentIDs.add(id);
+        segmentTypes.add("Narration");
+        selectedCharacterIDs.add("Placeholder Character");
         segmentContents.add("");
 
         // Toast.makeText(getApplicationContext(),traitNames.get(traitNames.size()-1),Toast.LENGTH_SHORT).show();
@@ -147,7 +149,7 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
                 JSONObject attributes = traitArray.getJSONObject(i);
                 segmentIDs.add(attributes.getString("id"));
                 segmentTypes.add(attributes.getString("type"));
-                segmentTypes.add(attributes.getString("selectedCharID"));
+                selectedCharacterIDs.add(attributes.getString("selectedCharID"));
                 segmentContents.add(attributes.getString("content"));
             }
 
@@ -182,7 +184,16 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
 
     private void updateView(){
 
-    cA=new CustomAdapterForScriptComponents_edit(ScriptEditorActivity.this,segmentTypes,segmentIDs,segmentContents,this);
+    cA=new CustomAdapterForScriptComponents_edit(
+            ScriptEditorActivity.this,
+            segmentTypes,
+            segmentIDs,
+            segmentContents,
+            characterIDs,
+            characterNames,
+            selectedCharacterIDs,
+            this);
+
         rV.setAdapter(cA);
     }
 
@@ -222,8 +233,8 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
                 fw.append("\n\t\t{" +
 
                         "\n\t\t\"id\":\"" + segmentIDs.get(i) + "\"" + "," +
-                        "\n\t\t\"type\":\"" + segmentIDs.get(i) + "\"" + "," +
-                        "\n\t\t\"selectedCharacterID\":\"" + segmentIDs.get(i) + "\"" + "," +
+                        "\n\t\t\"type\":\"" + segmentTypes.get(i) + "\"" + "," +
+                        "\n\t\t\"selectedCharID\":\"" + selectedCharacterIDs.get(i) + "\"" + "," +
                         "\n\t\t\"content\":\"" + segmentContents.get(i) + "\"" +
                         "\n\t\t}");
                 if (i < (segmentIDs.size() - 1)) {
@@ -238,8 +249,8 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
             finish();
         }
 
-        //update element list file
 
+        //update element list file
          directory = Environment.getExternalStorageDirectory() +
                 "/" + mainFolder +
                 "/" + projectID +
@@ -271,11 +282,11 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
 
 
 
-    private void deleteTrait(String id){
-        segmentContents.remove(segmentContents.get(segmentIDs.indexOf(id)));
-        segmentTypes.remove(segmentTypes.get(segmentIDs.indexOf(id)));
-        segmentIDs.remove(id);
-
+    private void deleteSegment(int pos){
+        segmentContents.remove(pos);
+        selectedCharacterIDs.remove(pos);
+        segmentTypes.remove(pos);
+        segmentIDs.remove(pos);
 
         updateView();
     }
@@ -284,8 +295,8 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
     @Override
     public void onDButtonClick(int pos) {
         obtainValues();
-        //Toast.makeText(getApplicationContext(),String.valueOf(pos),Toast.LENGTH_SHORT).show();
-        deleteTrait(segmentIDs.get(pos));
+        Toast.makeText(getApplicationContext(),String.valueOf(pos),Toast.LENGTH_SHORT).show();
+      deleteSegment(pos);
 
 
     }
@@ -294,7 +305,7 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
     public void onBackPressed() {
         super.onBackPressed();
         String s= String.valueOf(nameView.getText());
-
+        elementNames.set(selectedElementIndex,s);
 
 
         obtainValues();
@@ -302,8 +313,9 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
     }
 
     public void obtainValues(){
-        segmentTypes=cA.newTraitNames;
-        segmentContents=cA.newTraitContents;
+            selectedCharacterIDs=cA.newSelectedIDs;
+            segmentTypes=cA.newSegmentTypes;
+            segmentContents=cA.newSegmentContents;
     }
 
 

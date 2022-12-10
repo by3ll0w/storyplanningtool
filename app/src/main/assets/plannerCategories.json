@@ -7,11 +7,6 @@
       "default": true
     },
     {
-      "name": "Event",
-      "id": "Pcat02",
-      "default": true
-    },
-    {
       "name": "Script",
       "id": "Pcat03",
       "default": true

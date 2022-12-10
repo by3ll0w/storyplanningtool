@@ -17,7 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -38,9 +40,16 @@ public class ScriptDetailActivity extends AppCompatActivity {
     //Arraylists
     ArrayList<String> elementNames = new ArrayList<>();
     ArrayList<String> elementIDs = new ArrayList<>();
+
     ArrayList<String> segmentIDs = new ArrayList<>();
     ArrayList<String> segmentTypes = new ArrayList<>();
     ArrayList<String> segmentContents = new ArrayList<>();
+
+    ArrayList<String> selectedCharacterIDs = new ArrayList<>();
+
+    ArrayList<String> characterIDs = new ArrayList<>();
+    ArrayList<String> characterNames = new ArrayList<>();
+
 
     //Widgets
     Toolbar toolbar;
@@ -56,6 +65,7 @@ public class ScriptDetailActivity extends AppCompatActivity {
         titleView = findViewById(R.id.toolbar_title);
         contentDisplay = findViewById(R.id.txt_content);
 
+
         selectedIndex = getIntent().getIntExtra("index", 0);
         mainFolder = getIntent().getStringExtra("Folder");
         projectName = getIntent().getStringExtra("Project");
@@ -64,6 +74,7 @@ public class ScriptDetailActivity extends AppCompatActivity {
         categoryID = getIntent().getStringExtra("CatID");
         subDirect = getIntent().getStringExtra("SubFolder");
 
+        loadCharacters();
         loadData();
         setupViews();
 
@@ -92,9 +103,9 @@ public class ScriptDetailActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // delete selected script
+                                deleteStuff();
 
-
-                                updateFile();
+                                updateListFile();
                                 finish();
 
                             }
@@ -114,7 +125,15 @@ public class ScriptDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//clear stuff
+        //clear stuff
+        elementIDs.clear();
+        elementNames.clear();
+        segmentIDs.clear();
+        segmentContents.clear();
+        segmentTypes.clear();
+        selectedCharacterIDs.clear();
+
+
         loadData();
         titleView.setText(elementNames.get(selectedIndex));
         contentDisplay.setText(setScript());
@@ -129,12 +148,64 @@ public class ScriptDetailActivity extends AppCompatActivity {
 
     protected String setScript() {
         String s = "";
+
+        for (int ii=0;ii<segmentIDs.size();ii++){
+            String charName="";
+            String content;
+
+            //Check if Dialog
+            if(segmentTypes.get(ii).equals("Dialog")){
+                if(selectedCharacterIDs.get(ii).equals("")){
+                        charName="???";
+                }else{
+                        charName=characterNames.get(characterIDs.indexOf(selectedCharacterIDs.get(ii)));
+                }
+                charName+=": \t";
+
+            }
+
+            //check if content is empty
+            if(segmentContents.get(ii).isBlank()){
+                content="[...]";
+            }else{
+                content=segmentContents.get(ii);
+            }
+
+
+            s+=charName+content;
+
+            s+="\n\n";
+        }
+
+
+
+
+
+
         return s;
     }
+
+    protected void deleteStuff(){
+        String fileDir =
+                Environment.getExternalStorageDirectory() +
+                        "/" + mainFolder +
+                        "/" + projectID +
+                        subDirect + categoryName +
+                        "/" + elementIDs.get(selectedIndex) + ".json";
+        File f = new File(fileDir);
+        f.delete();
+        elementIDs.remove(selectedIndex);
+        elementNames.remove(selectedIndex);
+
+    }
+
+
+
 
 
     protected void openEditor() {
         Intent intent = new Intent(getApplicationContext(), ScriptEditorActivity.class);
+
         intent.putExtra("Folder", mainFolder);
         intent.putExtra("Project", projectName);
         intent.putExtra("ProjectID", projectID);
@@ -144,16 +215,73 @@ public class ScriptDetailActivity extends AppCompatActivity {
         intent.putExtra("SubFolder", subDirect);
 
 
-
-
         startActivity(intent);
     }
 
-    private void updateFile() {
+    private void updateScriptFile() {
+        String  directory = Environment.getExternalStorageDirectory() +
+                "/" + mainFolder +
+                "/" + projectID +
+                subDirect +
+                categoryName + "/"+elementIDs.get(selectedIndex)+".json";
+        try {
+            FileWriter fw = new FileWriter(directory);
+            fw.write("{\n\t\"segments\": [");
+            for (int i = 0; i < segmentIDs.size(); i++) {
+                fw.append("\n\t\t{" +
+
+                        "\n\t\t\"id\":\"" + segmentIDs.get(i) + "\"" + "," +
+                        "\n\t\t\"type\":\"" + segmentTypes.get(i) + "\"" + "," +
+                        "\n\t\t\"selectedCharID\":\"" + selectedCharacterIDs.get(i) + "\"" + "," +
+                        "\n\t\t\"content\":\"" + segmentContents.get(i) + "\"" +
+                        "\n\t\t}");
+                if (i < (segmentIDs.size() - 1)) {
+                    fw.append(",");
+                }
+            }
+
+            fw.append("\n\t]\n}");
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            finish();
+        }
 
     }
 
+    private void updateListFile(){
+        //update all elements
+        String directory = Environment.getExternalStorageDirectory() +
+                "/" + mainFolder +
+                "/" + projectID +
+                subDirect +
+                categoryName + ".json";
+        try {
+            FileWriter fw = new FileWriter(directory);
+            fw.write("{\n\t\"elements\": [");
+            for (int i = 0; i < elementNames.size(); i++) {
+                fw.append("\n\t\t{" +
+                        "\n\t\t\"id\":\"" + elementIDs.get(i) + "\"" + "," +
+                        "\n\t\t\"name\":\"" + elementNames.get(i) + "\"" +
+                        "\n\t\t}");
+                if (i < (elementNames.size() - 1)) {
+                    fw.append(",");
+                }
+            }
+
+            fw.append("\n\t]\n}");
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            finish();
+        }
+    }
+
+
+
     private void loadData() {
+
+        //load all scripts from list
         try {
             JSONObject o = new JSONObject(loadJSONFile(subDirect + categoryName));
 
@@ -172,10 +300,52 @@ public class ScriptDetailActivity extends AppCompatActivity {
 
         }
 
+        //load segments from selected script
+        try {
+            JSONObject o = new JSONObject(loadJSONFile(subDirect + categoryName + "/" + elementIDs.get(selectedIndex)));
 
+            JSONArray traitArray = o.getJSONArray("segments");
+            int availableItems = traitArray.length();
+
+            for (int i = 0; i < availableItems; i++) {
+                JSONObject attributes = traitArray.getJSONObject(i);
+                segmentIDs.add(attributes.getString("id"));
+                segmentTypes.add(attributes.getString("type"));
+                selectedCharacterIDs.add(attributes.getString("selectedCharID"));
+                segmentContents.add(attributes.getString("content"));
+            }
+
+        } catch (
+                JSONException e) {
+            e.printStackTrace();
+
+        }
 
 
     }
+
+
+    private void loadCharacters() {
+        //load characters
+        try {
+            JSONObject o = new JSONObject(loadJSONFile(subDirect + "Character"));
+
+            JSONArray elementArray = o.getJSONArray("elements");
+            int availableItems = elementArray.length();
+
+            for (int i = 0; i < availableItems; i++) {
+                JSONObject attributes = elementArray.getJSONObject(i);
+                characterIDs.add(attributes.getString("id"));
+                characterNames.add(attributes.getString("name"));
+            }
+
+        } catch (
+                JSONException e) {
+            e.printStackTrace();
+
+        }
+    }
+
 
     private String loadJSONFile(String n) {
         String j;

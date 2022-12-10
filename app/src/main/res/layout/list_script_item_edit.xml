@@ -48,7 +48,7 @@
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/edittrait_desc"
+            android:id="@+id/editContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/edittrait_top"
