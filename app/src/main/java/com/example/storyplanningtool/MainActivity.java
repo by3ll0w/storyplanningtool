@@ -68,7 +68,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestPermission();
+
+       if(!checkPermission()){
+           requestPermission();
+       }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);

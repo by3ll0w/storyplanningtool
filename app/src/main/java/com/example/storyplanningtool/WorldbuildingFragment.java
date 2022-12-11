@@ -231,6 +231,7 @@ public class WorldbuildingFragment extends Fragment implements RecyclerViewClick
             updateJSONFile();
 
         }
+        updateView();
     }
 
     public boolean checkIfNameExist(String n) {

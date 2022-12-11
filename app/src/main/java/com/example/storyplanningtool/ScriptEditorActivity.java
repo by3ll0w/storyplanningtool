@@ -295,7 +295,6 @@ public class ScriptEditorActivity extends AppCompatActivity implements DButtonCl
     @Override
     public void onDButtonClick(int pos) {
         obtainValues();
-        Toast.makeText(getApplicationContext(),String.valueOf(pos),Toast.LENGTH_SHORT).show();
       deleteSegment(pos);
 
 

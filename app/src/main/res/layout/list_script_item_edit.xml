@@ -21,12 +21,12 @@
             android:orientation="horizontal">
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="350dp"
+                android:layout_width="320dp"
                 android:layout_height="30dp" />
 
             <Spinner
                 android:id="@+id/spinner2"
-                android:layout_width="350dp"
+                android:layout_width="320dp"
                 android:layout_height="30dp"
                 android:layout_below="@id/spinner"
                 android:visibility="visible"/>
@@ -34,13 +34,13 @@
             <ImageButton
                 android:id="@+id/deleteButton"
                 style="@android:style/Widget.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/spinner"
+                android:background="#00FFFFFF"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="#DA0000"
-                android:layout_marginLeft="5dp"/>
+                app:tint="#DA0000" />
 
 
 
@@ -54,7 +54,7 @@
             android:layout_below="@id/edittrait_top"
             android:inputType="textMultiLine"
 
-            android:hint="Trait Value"
+            android:hint="Write Something Here."
             android:textColor="#000"
             android:textSize="15sp"
 
