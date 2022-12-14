@@ -197,7 +197,7 @@ public class ElementListActivity extends AppCompatActivity implements RecyclerVi
         if (name.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Unable to make Item. No name is entered.", Toast.LENGTH_SHORT).show();
         } else {
-            if (Character.isLetter(name.charAt(0))) {
+
                 if (checkIfNameExist(name)) {
                     Toast.makeText(getApplicationContext(), "Unable to make Item. Name already exists.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -219,9 +219,7 @@ public class ElementListActivity extends AppCompatActivity implements RecyclerVi
 
 
                 }
-            } else {
-                Toast.makeText(getApplicationContext(), "Unable to make Item. Name needs to start with a letter.", Toast.LENGTH_SHORT).show();
-            }
+
         }
     }
 
