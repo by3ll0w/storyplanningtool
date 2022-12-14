@@ -38,6 +38,7 @@
         android:textSize="15sp"
         android:layout_marginBottom="4sp"
         android:layout_below="@id/recyclerView"
+        android:visibility="gone"
        />
 
     <androidx.recyclerview.widget.RecyclerView

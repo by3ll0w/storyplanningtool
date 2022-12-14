@@ -94,9 +94,9 @@ public class NotesFragment extends Fragment implements RecyclerViewClickListener
     @Override
     public void applyTextToFragment(String name) {
         if (name.isEmpty()) {
-            Toast.makeText(getContext(), "Unable to make Category. No name is entered.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Unable to make note. No name is entered.", Toast.LENGTH_SHORT).show();
         } else if(checkIfNameExist(name)){
-            Toast.makeText(getContext(), "Unable to make Category. Name already exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Unable to make note. Name already exists", Toast.LENGTH_SHORT).show();
         }
         else {
             //Code if valid

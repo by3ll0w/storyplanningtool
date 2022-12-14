@@ -31,11 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp">
+
             <EditText
-            android:id="@+id/edit_element_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"/>
+                android:id="@+id/edit_element_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:singleLine="true" />
         </androidx.cardview.widget.CardView>
 
 

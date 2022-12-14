@@ -151,7 +151,11 @@ public class WorldbuildingFragment extends Fragment implements RecyclerViewClick
         CustomAdapterForCategories_custom cA2 = new CustomAdapterForCategories_custom(this.getContext(), categoryNames_custom, this);
         recyclerView2.setAdapter(cA2);
 
-
+        if(categoryNames_custom.isEmpty()){
+            customCatLabel.setVisibility(View.GONE);
+        }else{
+            customCatLabel.setVisibility(View.VISIBLE);
+        }
     }
 
 
