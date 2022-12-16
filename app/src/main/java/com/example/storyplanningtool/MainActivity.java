@@ -182,10 +182,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         }else{
             //If valid
 
-          /* if(Character.isLetter(name.charAt(0))){
+          /* if(Character.isLetter(name.charAt(0))){*/
                 if (checkIfNameExist(name)){
                     Toast.makeText(getApplicationContext(),"Unable to make Project. Name already exists.",Toast.LENGTH_SHORT).show();
-                }else{*/
+                }else{
 
                     //Code if valid
                     String id="proj"+ idformat.format(Calendar.getInstance().getTime());
@@ -205,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
                     openDashboard(name,id);
 
-             /*   }
-           }else{
+               }
+         /*   }else{
                 Toast.makeText(getApplicationContext(),"Unable to make Project. Name needs to start with a letter.",Toast.LENGTH_SHORT).show();
             }*/
 
@@ -215,6 +215,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         }
 
     }
+
+    private boolean checkIfNameExist(String n){
+        int s=projectNames.size();
+        boolean x=false;
+        if(s==0){
+            return false;
+        }else{
+            for(int i=0;i<s;i++){
+                if( n.equals( projectNames.get(i) ) ){
+                    x=true;
+                    break;
+                }
+            }
+
+            return x;
+        }
+    }
+
 
     //File Management
     private void updateProjectList(){

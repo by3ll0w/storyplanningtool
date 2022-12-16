@@ -21,6 +21,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/menu_toolbar"
         android:fontFamily="monospace"
+        android:layout_margin="5dp"
         android:text="text goes here"
         android:textSize="16dp" />
 

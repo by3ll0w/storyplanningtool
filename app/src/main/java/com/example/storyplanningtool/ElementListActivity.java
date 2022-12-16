@@ -198,7 +198,7 @@ public class ElementListActivity extends AppCompatActivity implements RecyclerVi
             Toast.makeText(getApplicationContext(), "Unable to make Item. No name is entered.", Toast.LENGTH_SHORT).show();
         } else {
 
-                if (checkIfNameExist(name)) {
+                if (checkIfElementNameExist(name)) {
                     Toast.makeText(getApplicationContext(), "Unable to make Item. Name already exists.", Toast.LENGTH_SHORT).show();
                 } else {
                     //Code if valid
@@ -228,23 +228,21 @@ public class ElementListActivity extends AppCompatActivity implements RecyclerVi
         if (name.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Unable to rename category. No name is entered.", Toast.LENGTH_SHORT).show();
         } else {
-            if (Character.isLetter(name.charAt(0))) {
-                if (name == categoryName) {
+            if (checkOtherCategoryNames(name)) {
+                if (name.equals(categoryName)) {
                     Toast.makeText(getApplicationContext(), "No changes made.", Toast.LENGTH_SHORT).show();
-                } else if (checkOtherCategoryNames(name)) {
-                    Toast.makeText(getApplicationContext(), "Unable to rename category. Name already exists.", Toast.LENGTH_SHORT).show();
                 } else {
-                    //Code if valid
-                    renameCategory(name);
+                    Toast.makeText(getApplicationContext(), "Unable to rename category. Name already exists.", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "Unable to rename category. Name needs to start with a letter.", Toast.LENGTH_SHORT).show();
+                //Code if valid
+                renameCategory(name);
             }
 
         }
     }
 
-    private boolean checkIfNameExist(String n) {
+    private boolean checkIfElementNameExist(String n) {
         int s = elementNames.size();
         boolean x = false;
         if (s == 0) {

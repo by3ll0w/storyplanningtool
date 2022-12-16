@@ -148,9 +148,14 @@ public class DashboardActivity extends AppCompatActivity implements InputDialog.
         if (name.isEmpty()){
             Toast.makeText(getApplicationContext(),"Unable to rename Project. No name is entered.",Toast.LENGTH_SHORT).show();
         }else{
-                if (name.equals(projectName)){
-                    Toast.makeText(getApplicationContext(),"No changes made.",Toast.LENGTH_SHORT).show();
-                }else{
+                if (checkIfNameExist(name)){
+                  if(name.equals(projectName)){
+                        Toast.makeText(getApplicationContext(),"No changes made.",Toast.LENGTH_SHORT).show();
+                  }else {
+                      Toast.makeText(getApplicationContext(), "Unable to rename Project. Name already exists.", Toast.LENGTH_SHORT).show();
+                  }
+
+              }else{
                     //Code if valid
                     renameProject(name);
                 }
