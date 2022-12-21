@@ -93,7 +93,7 @@ public class ScriptDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_delete: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete this note?")
+                builder.setTitle("Delete this script?")
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
